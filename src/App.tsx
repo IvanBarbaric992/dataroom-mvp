@@ -16,16 +16,9 @@ const App = () => (
     </header>
 
     <div className="container mx-auto px-6 py-6">
-      <div className="mb-6 flex items-center justify-between">
-        <Breadcrumbs />
-        <Toolbar />
-      </div>
+      <div className="mb-6 flex items-center justify-between"></div>
 
-      <DropZone>
-        <div className="min-h-[600px] rounded-xl border bg-card p-6">
-          <NodeList />
-        </div>
-      </DropZone>
+      <div className="min-h-[600px] rounded-xl border bg-card p-6"></div>
     </div>
   </div>
 );

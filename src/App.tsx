@@ -1,38 +1,33 @@
-import { useState } from 'react';
+import { Database } from 'lucide-react';
 
-import viteLogo from '../public/vite.svg';
-
-import reactLogo from './assets/react.svg';
-
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" rel="noreferrer" target="_blank">
-          <img alt="Vite logo" src={viteLogo} />
-        </a>
-        <a href="https://react.dev" rel="noreferrer" target="_blank">
-          <img alt="React logo" src={reactLogo} />
-        </a>
+const App = () => (
+  <div className="min-h-screen bg-background">
+    <header className="border-b bg-card">
+      <div className="container mx-auto px-6 py-4">
+        <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
+            <div className="rounded-lg bg-primary p-2">
+              <Database className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <h1 className="text-xl font-bold">Data Room</h1>
+          </div>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div>
-        <button
-          onClick={() => {
-            setCount((count) => count + 1);
-          }}
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+    </header>
+
+    <div className="container mx-auto px-6 py-6">
+      <div className="mb-6 flex items-center justify-between">
+        <Breadcrumbs />
+        <Toolbar />
       </div>
-      <p>Click on the Vite and React logos to learn more</p>
-    </>
-  );
-}
+
+      <DropZone>
+        <div className="min-h-[600px] rounded-xl border bg-card p-6">
+          <NodeList />
+        </div>
+      </DropZone>
+    </div>
+  </div>
+);
 
 export default App;

@@ -1,13 +1,13 @@
 // eslint.config.ts (ESM, flat)
-import js from '@eslint/js'
-import betterTailwind from 'eslint-plugin-better-tailwindcss'
-import importPlugin from 'eslint-plugin-import'
-import preferArrow from 'eslint-plugin-prefer-arrow'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
-import reactRefresh from 'eslint-plugin-react-refresh'
-import globals from 'globals'
-import tseslint from 'typescript-eslint'
+import js from '@eslint/js';
+import betterTailwind from 'eslint-plugin-better-tailwindcss';
+import importPlugin from 'eslint-plugin-import';
+import preferArrow from 'eslint-plugin-prefer-arrow';
+import react from 'eslint-plugin-react';
+import reactHooks from 'eslint-plugin-react-hooks';
+import reactRefresh from 'eslint-plugin-react-refresh';
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
@@ -59,7 +59,7 @@ export default tseslint.config(
       sourceType: 'module',
       parser: tseslint.parser,
       parserOptions: {
-        projectService: true,
+        project: ['./tsconfig.app.json', './tsconfig.node.json'],
         tsconfigRootDir: import.meta.dirname,
         ecmaFeatures: { jsx: true },
       },
@@ -73,6 +73,7 @@ export default tseslint.config(
       'import/resolver': {
         typescript: {
           alwaysTryTypes: true,
+          project: ['./tsconfig.app.json', './tsconfig.node.json'],
         },
         node: { extensions: ['.js', '.jsx', '.ts', '.tsx'] },
       },
@@ -94,7 +95,10 @@ export default tseslint.config(
       '@typescript-eslint/prefer-optional-chain': 'error',
       '@typescript-eslint/no-unnecessary-condition': 'warn',
       '@typescript-eslint/no-floating-promises': 'error',
-      '@typescript-eslint/no-misused-promises': ['error', { checksConditionals: true, checksVoidReturn: true, checksSpreads: true }],
+      '@typescript-eslint/no-misused-promises': [
+        'error',
+        { checksConditionals: true, checksVoidReturn: true, checksSpreads: true },
+      ],
       '@typescript-eslint/require-await': 'error',
       '@typescript-eslint/return-await': ['error', 'always'],
       '@typescript-eslint/await-thenable': 'error',
@@ -109,13 +113,25 @@ export default tseslint.config(
       'react/display-name': 'warn',
       'react/no-array-index-key': 'warn',
       'react/no-deprecated': 'error',
-      'react/jsx-key': ['error', { checkFragmentShorthand: true, checkKeyMustBeforeSpread: true, warnOnDuplicates: true }],
-      'react/jsx-no-target-blank': ['error', { allowReferrer: false, enforceDynamicLinks: 'always' }],
+      'react/jsx-key': [
+        'error',
+        { checkFragmentShorthand: true, checkKeyMustBeforeSpread: true, warnOnDuplicates: true },
+      ],
+      'react/jsx-no-target-blank': [
+        'error',
+        { allowReferrer: false, enforceDynamicLinks: 'always' },
+      ],
       'react/jsx-no-useless-fragment': ['error', { allowExpressions: true }],
       'react/jsx-pascal-case': 'error',
-      'react/jsx-sort-props': ['warn', { callbacksLast: true, shorthandFirst: true, multiline: 'last', reservedFirst: true }],
+      'react/jsx-sort-props': [
+        'warn',
+        { callbacksLast: true, shorthandFirst: true, multiline: 'last', reservedFirst: true },
+      ],
       ...reactHooks.configs['recommended-latest'].rules,
-      'react-hooks/exhaustive-deps': ['error', { additionalHooks: '(useIsomorphicLayoutEffect|useUpdateEffect)' }],
+      'react-hooks/exhaustive-deps': [
+        'error',
+        { additionalHooks: '(useIsomorphicLayoutEffect|useUpdateEffect)' },
+      ],
       'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
 
       // --- CORE ---
@@ -169,4 +185,4 @@ export default tseslint.config(
       'prefer-arrow/prefer-arrow-functions': 'off',
     },
   },
-)
+);

@@ -8,7 +8,7 @@ export function withSuffix(name: string, n: number): string {
   return `${base} (${n.toString()})${ext}`;
 }
 
-export function ensureUniqueName(desired: string, existingLower: Set<string>): string {
+export const ensureUniqueName = (desired: string, existingLower: Set<string>): string => {
   const target = desired.toLowerCase();
   if (!existingLower.has(target)) {
     return desired;
@@ -18,4 +18,4 @@ export function ensureUniqueName(desired: string, existingLower: Set<string>): s
     i++;
   }
   return withSuffix(desired, i);
-}
+};

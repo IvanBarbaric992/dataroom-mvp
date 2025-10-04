@@ -1,70 +1,115 @@
 @import 'tailwindcss';
+@import 'react-pdf/dist/Page/AnnotationLayer.css';
+@import 'react-pdf/dist/Page/TextLayer.css';
 
 @theme {
-  /* Base colors */
-  --color-border: hsl(214.3deg 31.8% 91.4%);
-  --color-input: hsl(214.3deg 31.8% 91.4%);
-  --color-ring: hsl(222.2deg 84% 4.9%);
+  /*
+   * Modern 2025 Design System - Inspired by Linear, Figma, Notion
+   * Features: High contrast, warm grays, vibrant blues, proper hierarchy
+   */
 
+  /* Light Theme - Clean & Fresh */
   --color-background: hsl(0deg 0% 100%);
-  --color-foreground: hsl(222.2deg 84% 4.9%);
-
-  --color-primary: hsl(222.2deg 47.4% 11.2%);
-  --color-primary-foreground: hsl(210deg 40% 98%);
-
-  --color-secondary: hsl(210deg 40% 96%);
-  --color-secondary-foreground: hsl(222.2deg 84% 4.9%);
-
-  --color-destructive: hsl(0deg 84.2% 60.2%);
-  --color-destructive-foreground: hsl(210deg 40% 98%);
-
-  --color-muted: hsl(210deg 40% 96%);
-  --color-muted-foreground: hsl(215.4deg 16.3% 46.9%);
-
-  --color-accent: hsl(210deg 40% 96%);
-  --color-accent-foreground: hsl(222.2deg 84% 4.9%);
-
-  --color-popover: hsl(0deg 0% 100%);
-  --color-popover-foreground: hsl(222.2deg 84% 4.9%);
+  --color-foreground: hsl(240deg 10% 3.9%);
 
   --color-card: hsl(0deg 0% 100%);
-  --color-card-foreground: hsl(222.2deg 84% 4.9%);
+  --color-card-foreground: hsl(240deg 10% 3.9%);
 
-  /* Border radius */
+  --color-popover: hsl(0deg 0% 100%);
+  --color-popover-foreground: hsl(240deg 10% 3.9%);
+
+  /* Primary - Modern vibrant blue */
+  --color-primary: hsl(221deg 83% 53%);
+  --color-primary-foreground: hsl(0deg 0% 100%);
+
+  /* Secondary - Soft warm gray */
+  --color-secondary: hsl(240deg 4.8% 95.9%);
+  --color-secondary-foreground: hsl(240deg 5.9% 10%);
+
+  /* Muted - Subtle background and text */
+  --color-muted: hsl(240deg 4.8% 95.9%);
+  --color-muted-foreground: hsl(240deg 3.8% 46.1%);
+
+  /* Accent - Same as primary for consistency */
+  --color-accent: hsl(240deg 4.8% 95.9%);
+  --color-accent-foreground: hsl(240deg 5.9% 10%);
+
+  /* Destructive - Modern red with good contrast */
+  --color-destructive: hsl(0deg 72% 51%);
+  --color-destructive-foreground: hsl(0deg 0% 100%);
+
+  /* Success - Modern green */
+  --color-success: hsl(142deg 71% 45%);
+  --color-success-foreground: hsl(0deg 0% 100%);
+
+  /* Borders and inputs */
+  --color-border: hsl(240deg 5.9% 90%);
+  --color-input: hsl(240deg 5.9% 90%);
+  --color-ring: hsl(221deg 83% 53%);
+
+  /* Border radius - More modern, less rounded */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
 }
 
-/* Dark mode theme */
-@media (prefers-color-scheme: dark) {
-  @theme {
-    --color-border: hsl(217.2deg 32.6% 17.5%);
-    --color-input: hsl(217.2deg 32.6% 17.5%);
-    --color-ring: hsl(212.7deg 26.8% 83.9%);
+/* Base layer - CSS Reset & Body styles */
+* {
+  border-color: hsl(var(--color-border));
+}
 
-    --color-background: hsl(222.2deg 84% 4.9%);
-    --color-foreground: hsl(210deg 40% 98%);
+body {
+  background-color: hsl(var(--color-background));
+  color: hsl(var(--color-foreground));
+  font-feature-settings:
+    'rlig' 1,
+    'calt' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
-    --color-primary: hsl(210deg 40% 98%);
-    --color-primary-foreground: hsl(222.2deg 47.4% 11.2%);
+/* Enhanced Sonner Toaster Styles - Modern 2025 look */
+[data-sonner-toaster] {
+  --normal-bg: hsl(var(--color-card));
+  --normal-border: hsl(var(--color-border));
+  --normal-text: hsl(var(--color-card-foreground));
+  --success-bg: hsl(var(--color-success));
+  --success-border: hsl(var(--color-success));
+  --success-text: hsl(var(--color-success-foreground));
+  --error-bg: hsl(var(--color-destructive));
+  --error-border: hsl(var(--color-destructive));
+  --error-text: hsl(var(--color-destructive-foreground));
+}
 
-    --color-secondary: hsl(217.2deg 32.6% 17.5%);
-    --color-secondary-foreground: hsl(210deg 40% 98%);
+[data-sonner-toast] {
+  background: var(--normal-bg) !important;
+  border: 1px solid var(--normal-border) !important;
+  color: var(--normal-text) !important;
+  border-radius: 0.75rem !important;
+  box-shadow:
+    0 4px 6px -1px rgb(0 0 0 / 0.1),
+    0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+  backdrop-filter: blur(16px) !important;
+}
 
-    --color-destructive: hsl(0deg 62.8% 30.6%);
-    --color-destructive-foreground: hsl(210deg 40% 98%);
+[data-sonner-toast][data-type='success'] {
+  background: var(--success-bg) !important;
+  border-color: var(--success-border) !important;
+  color: var(--success-text) !important;
+}
 
-    --color-muted: hsl(217.2deg 32.6% 17.5%);
-    --color-muted-foreground: hsl(215deg 20.2% 65.1%);
+[data-sonner-toast][data-type='error'] {
+  background: var(--error-bg) !important;
+  border-color: var(--error-border) !important;
+  color: var(--error-text) !important;
+}
 
-    --color-accent: hsl(217.2deg 32.6% 17.5%);
-    --color-accent-foreground: hsl(210deg 40% 98%);
+[data-sonner-toast] [data-title] {
+  color: inherit !important;
+  font-weight: 500 !important;
+}
 
-    --color-popover: hsl(222.2deg 84% 4.9%);
-    --color-popover-foreground: hsl(210deg 40% 98%);
-
-    --color-card: hsl(222.2deg 84% 4.9%);
-    --color-card-foreground: hsl(210deg 40% 98%);
-  }
+[data-sonner-toast] [data-description] {
+  color: inherit !important;
+  opacity: 0.9 !important;
 }

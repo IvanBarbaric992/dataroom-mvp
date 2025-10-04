@@ -1,24 +1,45 @@
 import { nanoid } from 'nanoid';
 
 import { createBlob } from '@/entities/blob/api/blob.repo';
-import { ensureUniqueName } from '@/entities/node/lib/name';
-import type { NodeRecord } from '@/entities/node/model/types';
+import type { NodeRecord } from '@/entities/node/node.types';
+import { ensureUniqueName } from '@/entities/node/node.utils';
 import { db } from '@/shared/lib/database';
 
-const getNode = async (id: string): Promise<NodeRecord | undefined> => await db.nodes.get(id);
+export const getNode = async (id: string): Promise<NodeRecord | undefined> =>
+  await db.nodes.get(id);
 
-const listChildren = async (roomId: string, parentId: string | null): Promise<NodeRecord[]> =>
-  await db.nodes.where({ roomId, parentId }).toArray();
+export const listChildren = async (
+  roomId: string,
+  parentId: string | null,
+): Promise<NodeRecord[]> => {
+  if (parentId === null) {
+    return await db.nodes
+      .where('roomId')
+      .equals(roomId)
+      .and((node) => node.parentId === null)
+      .toArray();
+  }
+  return await db.nodes.where({ roomId, parentId }).toArray();
+};
 
-const listSiblingNameSet = async (
+export const listSiblingNameSet = async (
   roomId: string,
   parentId: string | null,
 ): Promise<Set<string>> => {
-  const siblings = await db.nodes.where({ roomId, parentId }).toArray();
+  let siblings: NodeRecord[];
+  if (parentId === null) {
+    siblings = await db.nodes
+      .where('roomId')
+      .equals(roomId)
+      .and((node) => node.parentId === null)
+      .toArray();
+  } else {
+    siblings = await db.nodes.where({ roomId, parentId }).toArray();
+  }
   return new Set(siblings.map((s) => s.nameLower));
 };
 
-const createFolder = async (
+export const createFolder = async (
   roomId: string,
   parentId: string | null,
   name: string,
@@ -40,7 +61,11 @@ const createFolder = async (
   return rec;
 };
 
-const createFile = async (roomId: string, parentId: string | null, file: File): Promise<string> => {
+export const createFile = async (
+  roomId: string,
+  parentId: string | null,
+  file: File,
+): Promise<string> => {
   if (file.type !== 'application/pdf') {
     throw new Error('Only PDF is supported');
   }
@@ -70,13 +95,12 @@ const createFile = async (roomId: string, parentId: string | null, file: File): 
   return id;
 };
 
-const renameNode = async (id: string, newName: string): Promise<void> => {
+export const renameNode = async (id: string, newName: string): Promise<void> => {
   const node = await db.nodes.get(id);
   if (!node) {
     return;
   }
   const existing = await listSiblingNameSet(node.roomId, node.parentId);
-  // ukloni vlastito ime iz seta
   existing.delete(node.nameLower);
   const safe = ensureUniqueName(newName, existing);
   await db.nodes.update(id, {
@@ -86,7 +110,7 @@ const renameNode = async (id: string, newName: string): Promise<void> => {
   });
 };
 
-const collectDescendantsBfs = async (rootId: string): Promise<string[]> => {
+export const collectDescendantsBfs = async (rootId: string): Promise<string[]> => {
   const out: string[] = [];
   const q: string[] = [rootId];
   while (q.length > 0) {
@@ -101,7 +125,7 @@ const collectDescendantsBfs = async (rootId: string): Promise<string[]> => {
   return out;
 };
 
-const deleteCascade = async (id: string): Promise<void> => {
+export const deleteCascade = async (id: string): Promise<void> => {
   const toDelete = await collectDescendantsBfs(id);
   const nodes = await db.nodes.bulkGet(toDelete);
 
@@ -120,15 +144,26 @@ const deleteCascade = async (id: string): Promise<void> => {
   });
 };
 
-const resolvePath = async (roomId: string, segments: string[]): Promise<NodeRecord | null> => {
+export const resolvePath = async (
+  roomId: string,
+  segments: string[],
+): Promise<NodeRecord | null> => {
   let parentId: string | null = null;
   let current: NodeRecord | undefined;
   for (const seg of segments) {
     const lower = seg.toLowerCase();
-    current = await db.nodes
-      .where({ roomId, parentId, nameLower: lower })
-      .filter((n) => n.type === 'folder')
-      .first();
+    if (parentId === null) {
+      current = await db.nodes
+        .where('roomId')
+        .equals(roomId)
+        .and((node) => node.parentId === null && node.nameLower === lower && node.type === 'folder')
+        .first();
+    } else {
+      current = await db.nodes
+        .where({ roomId, parentId, nameLower: lower })
+        .filter((n) => n.type === 'folder')
+        .first();
+    }
     if (!current) {
       return null;
     }
@@ -137,13 +172,31 @@ const resolvePath = async (roomId: string, segments: string[]): Promise<NodeReco
   return current ?? null;
 };
 
-export {
-  createFile,
-  createFolder,
-  deleteCascade,
-  getNode,
-  listChildren,
-  listSiblingNameSet,
-  renameNode,
-  resolvePath,
+export const getNodesByParent = async (
+  roomId: string | null,
+  parentId: string | null,
+): Promise<NodeRecord[]> => {
+  if (!roomId) {
+    return [];
+  }
+
+  let items: NodeRecord[];
+  if (parentId === null) {
+    items = await db.nodes
+      .where('roomId')
+      .equals(roomId)
+      .and((node) => node.parentId === null)
+      .toArray();
+  } else {
+    items = await db.nodes.where({ roomId, parentId }).toArray();
+  }
+
+  return items.sort((a, b) => {
+    // Folders first
+    if (a.type !== b.type) {
+      return a.type === 'folder' ? -1 : 1;
+    }
+    // Alphabetically by name
+    return a.name.localeCompare(b.name);
+  });
 };

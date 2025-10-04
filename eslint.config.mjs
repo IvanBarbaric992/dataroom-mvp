@@ -1,4 +1,3 @@
-// eslint.config.ts (ESM, flat)
 import js from '@eslint/js';
 import betterTailwind from 'eslint-plugin-better-tailwindcss';
 import importPlugin from 'eslint-plugin-import';
@@ -97,13 +96,13 @@ export default tseslint.config(
       '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/no-misused-promises': [
         'error',
-        { checksConditionals: true, checksVoidReturn: true, checksSpreads: true },
+        { checksConditionals: true, checksVoidReturn: false, checksSpreads: true },
       ],
       '@typescript-eslint/require-await': 'error',
       '@typescript-eslint/return-await': ['error', 'always'],
       '@typescript-eslint/await-thenable': 'error',
       '@typescript-eslint/no-unnecessary-type-assertion': 'warn',
-      '@typescript-eslint/promise-function-async': 'off', // često bučan u UI kodu
+      '@typescript-eslint/promise-function-async': 'off',
 
       // --- REACT ---
       'react/react-in-jsx-scope': 'off',
@@ -168,7 +167,8 @@ export default tseslint.config(
 
       ...betterTailwind.configs['recommended-warn'].rules,
       'better-tailwindcss/classnames-order': 'off',
-      'better-tailwindcss/no-unregistered-classes': ['warn'],
+      'better-tailwindcss/enforce-consistent-line-wrapping': 'off',
+      'better-tailwindcss/no-unregistered-classes': 'off',
     },
   },
 

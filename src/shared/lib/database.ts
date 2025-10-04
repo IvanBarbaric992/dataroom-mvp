@@ -1,11 +1,4 @@
-import { Dexie, type EntityTable } from 'dexie';
-
-export interface Room {
-  id: string;
-  name: string;
-  createdAt: number;
-  updatedAt: number;
-}
+import Dexie, { type EntityTable } from 'dexie';
 
 export type NodeType = 'folder' | 'file';
 
@@ -28,15 +21,19 @@ export interface BlobRecord {
   data: Blob;
 }
 
-export const db = new Dexie('DataRoomDB') as Dexie & {
-  rooms: EntityTable<Room, 'id'>;
-  nodes: EntityTable<NodeRecord, 'id'>;
-  blobs: EntityTable<BlobRecord, 'id'>;
-};
+class AppDB extends Dexie {
+  nodes!: EntityTable<NodeRecord, 'id'>;
+  blobs!: EntityTable<BlobRecord, 'id'>;
 
-db.version(1).stores({
-  rooms: '&id, name, createdAt, updatedAt',
-  nodes:
-    '&id, roomId, parentId, type, name, nameLower, [roomId+parentId], [roomId+parentId+type], [roomId+parentId+nameLower]',
-  blobs: '&id',
-});
+  constructor() {
+    super('DataRoomDB');
+    this.version(1).stores({
+      nodes:
+        '&id, roomId, parentId, type, name, nameLower, ' +
+        '[roomId+parentId], [roomId+parentId+type], [roomId+parentId+nameLower]',
+      blobs: '&id',
+    });
+  }
+}
+
+export const db = new AppDB();

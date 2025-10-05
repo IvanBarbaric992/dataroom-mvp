@@ -8,11 +8,9 @@ const NotFound = () => {
 
   return (
     <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 text-center">
-      <div className="group relative">
+      <div className="group relative rounded-full bg-muted p-8 transition-all duration-300 hover:scale-110 hover:shadow-lg">
         <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-primary/20 to-accent/20 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-        <div className="relative rounded-full bg-muted p-8 transition-transform duration-300 group-hover:scale-110">
-          <FileQuestion className="h-24 w-24 text-muted-foreground transition-colors duration-300 group-hover:text-primary" />
-        </div>
+        <FileQuestion className="relative h-24 w-24 text-muted-foreground transition-colors duration-300 group-hover:text-primary" />
       </div>
 
       <div className="mt-8 space-y-4">

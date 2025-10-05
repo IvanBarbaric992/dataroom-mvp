@@ -6,27 +6,13 @@ type NodeId = string;
 interface DataRoomState {
   currentRoomId: RoomId | null;
   currentPath: NodeId[];
-  selectedNodeId: NodeId | null;
-  uploadProgress: number | null;
-  setCurrentRoomId: (roomId: RoomId | null) => void;
   navigateToFolder: (folderId: NodeId | null) => void;
-  selectNodeId: (nodeId: NodeId | null) => void;
   getCurrentParentId: () => NodeId | null;
 }
 
 const useDataRoomStore = create<DataRoomState>()((set, get) => ({
   currentRoomId: 'default-room-id',
   currentPath: [],
-  selectedNodeId: null,
-  uploadProgress: null,
-
-  setCurrentRoomId: (roomId) => {
-    set({
-      currentRoomId: roomId,
-      currentPath: [],
-      selectedNodeId: null,
-    });
-  },
 
   navigateToFolder: (folderId) => {
     set((state) => {
@@ -42,10 +28,6 @@ const useDataRoomStore = create<DataRoomState>()((set, get) => ({
 
       return { currentPath: [...state.currentPath, folderId] };
     });
-  },
-
-  selectNodeId: (nodeId) => {
-    set({ selectedNodeId: nodeId });
   },
 
   getCurrentParentId: () => {

@@ -20,8 +20,8 @@ const Home = () => (
       <div className="min-h-[600px] rounded-xl border bg-card p-4 transition-all duration-200 hover:shadow-lg sm:p-6">
         <Suspense
           fallback={
-            <div className="flex h-96 items-center justify-center">
-              <div className="animate-pulse text-sm text-muted-foreground">Loading...</div>
+            <div className="flex h-96 animate-pulse items-center justify-center text-sm text-muted-foreground">
+              Loading...
             </div>
           }
         >

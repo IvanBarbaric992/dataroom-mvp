@@ -88,8 +88,8 @@ const NodeList = () => {
             Back
           </Button>
         )}
-        <div className="flex items-center justify-center p-8">
-          <div className="text-sm text-muted-foreground">Loading...</div>
+        <div className="flex items-center justify-center p-8 text-sm text-muted-foreground">
+          Loading...
         </div>
       </div>
     );
@@ -104,9 +104,7 @@ const NodeList = () => {
             Back
           </Button>
         )}
-        <div className="flex h-96 w-full items-center justify-center">
-          <EmptyState message="Create a folder or upload files to get started" type="folder" />
-        </div>
+        <EmptyState message="Create a folder or upload files to get started" type="folder" />
       </div>
     );
   }

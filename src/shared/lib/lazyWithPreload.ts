@@ -7,10 +7,10 @@ export interface PreloadableComponent<T = Record<string, never>>
 
 const importCache = new Map<string, Promise<{ default: ComponentType<unknown> }>>();
 
-export function lazyWithPreload<T = Record<string, never>>(
+export const lazyWithPreload = <T = Record<string, never>>(
   importFn: () => Promise<{ default: ComponentType<T> }>,
   key?: string,
-): PreloadableComponent<T> {
+): PreloadableComponent<T> => {
   const cacheKey = key ?? importFn.toString();
 
   const getLazyImport = () => {
@@ -34,4 +34,4 @@ export function lazyWithPreload<T = Record<string, never>>(
   LazyComponent.preload = () => void getLazyImport();
 
   return LazyComponent;
-}
+};

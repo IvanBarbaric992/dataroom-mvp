@@ -1,4 +1,4 @@
-export function withSuffix(name: string, n: number): string {
+export const withSuffix = (name: string, n: number): string => {
   const m = /^(.*?)(\.[^.]*)?$/.exec(name);
   if (!m) {
     return `${name} (${n.toString()})`;
@@ -6,7 +6,7 @@ export function withSuffix(name: string, n: number): string {
   const base = m[1];
   const ext = m[2] || '';
   return `${base} (${n.toString()})${ext}`;
-}
+};
 
 export const ensureUniqueName = (desired: string, existingLower: Set<string>): string => {
   const target = desired.toLowerCase();

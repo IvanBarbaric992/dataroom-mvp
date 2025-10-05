@@ -13,9 +13,7 @@ const Breadcrumbs = () => {
     if (currentPath.length === 0) {
       return [];
     }
-
     const nodes = await db.nodes.bulkGet(currentPath);
-
     return nodes.filter((node): node is NodeRecord => node !== undefined);
   }, [currentPath]);
 

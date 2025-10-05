@@ -14,6 +14,7 @@ import {
 import EmptyState from '@/components/EmptyState';
 import { getNodesByParent } from '@/entities/node/node.repo';
 import type { NodeRecord } from '@/entities/node/node.types';
+import { EMPTY_STATE_TYPES, NODE_TYPES } from '@/shared/constants/node.constants';
 import formatBytes from '@/shared/lib/format';
 import { lazyWithPreload } from '@/shared/lib/lazyWithPreload';
 import useDataRoomStore from '@/shared/stores/useDataRoomStore';
@@ -46,7 +47,7 @@ const NodeList = () => {
   }, [currentRoomId, currentPath]);
 
   const handleNodeClick = (node: NodeRecord) => {
-    if (node.type === 'folder') {
+    if (node.type === NODE_TYPES.FOLDER) {
       navigateToFolder(node.id);
     } else {
       setSelectedNode(node);
@@ -104,7 +105,12 @@ const NodeList = () => {
             Back
           </Button>
         )}
-        <EmptyState message="Create a folder or upload files to get started" type="folder" />
+        <div className="flex h-96 items-center justify-center">
+          <EmptyState
+            message="Create a folder or upload files to get started"
+            type={EMPTY_STATE_TYPES.FOLDER}
+          />
+        </div>
       </div>
     );
   }
@@ -120,19 +126,20 @@ const NodeList = () => {
 
       <div className="grid grid-cols-1 gap-2">
         {nodes.map((node) => {
-          const Icon = node.type === 'folder' ? Folder : FileText;
-          const nodeLabel = node.type === 'folder' ? 'Folder' : formatBytes(node.size ?? 0);
+          const Icon = node.type === NODE_TYPES.FOLDER ? Folder : FileText;
+          const nodeLabel =
+            node.type === NODE_TYPES.FOLDER ? 'Folder' : formatBytes(node.size ?? 0);
 
           return (
             <div
               key={node.id}
-              className={`group flex items-center gap-3 rounded-lg border bg-card p-3 transition-all duration-200 hover:scale-[1.01] hover:border-blue-200 hover:bg-blue-50 hover:shadow-md`}
+              className={`group flex items-center gap-3 rounded-lg border bg-card/50 p-3 backdrop-blur-sm transition-all duration-150 hover:scale-[1.01] hover:border-primary/20 hover:bg-primary/5 hover:shadow-lg hover:shadow-primary/10`}
             >
               <button
                 aria-label={`Open ${node.name}`}
                 className="flex min-w-0 flex-1 cursor-pointer items-center gap-3 text-left"
-                onMouseEnter={node.type === 'file' ? handlePdfPreload : undefined}
-                onTouchStart={node.type === 'file' ? handlePdfPreload : undefined}
+                onMouseEnter={node.type === NODE_TYPES.FILE ? handlePdfPreload : undefined}
+                onTouchStart={node.type === NODE_TYPES.FILE ? handlePdfPreload : undefined}
                 onClick={() => {
                   handleNodeClick(node);
                 }}
@@ -144,7 +151,7 @@ const NodeList = () => {
                     <span>{nodeLabel}</span>
                     <span className="hidden sm:inline">·</span>
                     <span>
-                      {node.type === 'folder'
+                      {node.type === NODE_TYPES.FOLDER
                         ? `Created ${format(node.createdAt, 'MMM d, yyyy')}`
                         : `Added ${format(node.createdAt, 'MMM d, yyyy')}`}
                     </span>
@@ -152,7 +159,7 @@ const NodeList = () => {
                       <>
                         <span className="hidden sm:inline">·</span>
                         <span>
-                          {node.type === 'folder'
+                          {node.type === NODE_TYPES.FOLDER
                             ? `Updated ${format(node.updatedAt, 'MMM d, yyyy')}`
                             : `Modified ${format(node.updatedAt, 'MMM d, yyyy')}`}
                         </span>

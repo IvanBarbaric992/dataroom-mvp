@@ -1,6 +1,6 @@
 import Dexie, { type EntityTable } from 'dexie';
 
-export type NodeType = 'folder' | 'file';
+import { type NodeType } from '@/shared/constants/node.constants';
 
 export interface NodeRecord {
   id: string;

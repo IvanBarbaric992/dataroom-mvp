@@ -1,16 +1,18 @@
 import { FolderPlus, Upload } from 'lucide-react';
 
+import { EMPTY_STATE_TYPES, type EmptyStateType } from '@/shared/constants/node.constants';
+
 interface EmptyStateProps {
-  type?: 'folder' | 'file' | 'general';
+  type?: EmptyStateType;
   message?: string;
 }
 
 const EmptyState = ({ type = 'general', message }: EmptyStateProps) => {
   const getIcon = () => {
     switch (type) {
-      case 'folder':
+      case EMPTY_STATE_TYPES.FOLDER:
         return <FolderPlus className="h-12 w-12 text-muted-foreground/50" />;
-      case 'file':
+      case EMPTY_STATE_TYPES.FILE:
         return <Upload className="h-12 w-12 text-muted-foreground/50" />;
       default:
         return <FolderPlus className="h-12 w-12 text-muted-foreground/50" />;
@@ -19,9 +21,9 @@ const EmptyState = ({ type = 'general', message }: EmptyStateProps) => {
 
   const getDefaultMessage = () => {
     switch (type) {
-      case 'folder':
+      case EMPTY_STATE_TYPES.FOLDER:
         return 'No items yet';
-      case 'file':
+      case EMPTY_STATE_TYPES.FILE:
         return 'No files uploaded';
       default:
         return 'Nothing here yet';

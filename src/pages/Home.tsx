@@ -17,7 +17,7 @@ const Home = () => (
     </div>
 
     <DropZone>
-      <div className="min-h-[600px] rounded-xl border bg-card p-4 transition-all duration-200 hover:shadow-lg sm:p-6">
+      <div className="min-h-[600px] rounded-xl border border-border/50 bg-card/50 p-4 shadow-lg shadow-primary/5 backdrop-blur-sm transition-all duration-150 hover:shadow-xl hover:shadow-primary/10 sm:p-6">
         <Suspense
           fallback={
             <div className="flex h-96 animate-pulse items-center justify-center text-sm text-muted-foreground">

@@ -12,9 +12,15 @@ const Toaster = ({ ...props }: ToasterProps) => {
       theme={theme as ToasterProps['theme']}
       style={
         {
-          '--normal-bg': 'var(--popover)',
-          '--normal-text': 'var(--popover-foreground)',
-          '--normal-border': 'var(--border)',
+          '--normal-bg': 'hsl(var(--card))',
+          '--normal-text': 'hsl(var(--card-foreground))',
+          '--normal-border': 'hsl(var(--border))',
+          '--success-bg': 'hsl(var(--primary))',
+          '--success-text': 'hsl(var(--primary-foreground))',
+          '--error-bg': 'hsl(var(--destructive))',
+          '--error-text': 'hsl(var(--destructive-foreground))',
+          '--success-border': 'hsl(var(--primary-foreground) / 0.5)',
+          '--error-border': 'hsl(var(--destructive) / 0.5)',
         } as CSSProperties
       }
       {...props}

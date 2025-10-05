@@ -8,8 +8,8 @@ import { cn } from '@/shared/lib/classname';
 const buttonVariants = cva(
   `
     inline-flex cursor-pointer items-center justify-center gap-2 rounded-md text-sm
-    font-medium whitespace-nowrap transition-all duration-200
-    hover:scale-[1.01] focus-visible:ring-1 focus-visible:ring-ring
+    font-medium whitespace-nowrap transition-all duration-150 ease-out
+    hover:scale-[1.01] focus-visible:ring-2 focus-visible:ring-ring/20
     focus-visible:outline-none active:scale-95 disabled:pointer-events-none
     disabled:cursor-not-allowed disabled:opacity-50 [&_svg]:pointer-events-none
     [&_svg]:size-4 [&_svg]:shrink-0

@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { createBlob } from '@/entities/blob/api/blob.repo';
 import type { NodeRecord } from '@/entities/node/node.types';
 import { ensureUniqueName } from '@/entities/node/node.utils';
+import { NODE_TYPES } from '@/shared/constants/node.constants';
 import { db } from '@/shared/lib/database';
 
 export const getNode = async (id: string): Promise<NodeRecord | undefined> =>
@@ -51,7 +52,7 @@ export const createFolder = async (
     id: nanoid(),
     roomId,
     parentId,
-    type: 'folder',
+    type: NODE_TYPES.FOLDER,
     name: safe,
     nameLower: safe.toLowerCase(),
     createdAt: now,
@@ -81,7 +82,7 @@ export const createFile = async (
       id,
       roomId,
       parentId,
-      type: 'file',
+      type: NODE_TYPES.FILE,
       name: safe,
       nameLower: safe.toLowerCase(),
       createdAt: now,
@@ -131,7 +132,7 @@ export const deleteCascade = async (id: string): Promise<void> => {
 
   const blobIds: string[] = [];
   for (const node of nodes) {
-    if (node && node.type === 'file' && node.blobId) {
+    if (node && node.type === NODE_TYPES.FILE && node.blobId) {
       blobIds.push(node.blobId);
     }
   }
@@ -156,12 +157,15 @@ export const resolvePath = async (
       current = await db.nodes
         .where('roomId')
         .equals(roomId)
-        .and((node) => node.parentId === null && node.nameLower === lower && node.type === 'folder')
+        .and(
+          (node) =>
+            node.parentId === null && node.nameLower === lower && node.type === NODE_TYPES.FOLDER,
+        )
         .first();
     } else {
       current = await db.nodes
         .where({ roomId, parentId, nameLower: lower })
-        .filter((n) => n.type === 'folder')
+        .filter((n) => n.type === NODE_TYPES.FOLDER)
         .first();
     }
     if (!current) {
@@ -194,7 +198,7 @@ export const getNodesByParent = async (
   return items.sort((a, b) => {
     // Folders first
     if (a.type !== b.type) {
-      return a.type === 'folder' ? -1 : 1;
+      return a.type === NODE_TYPES.FOLDER ? -1 : 1;
     }
     // Alphabetically by name
     return a.name.localeCompare(b.name);

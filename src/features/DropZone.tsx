@@ -37,6 +37,7 @@ const DropZone = ({ children }: DropZoneProps) => {
         await createFile(currentRoomId, parentId, file);
 
         toast.success('File uploaded', {
+          id: `file-uploaded-${Date.now().toString()}`,
           description: `"${file.name}" has been uploaded successfully.`,
         });
       } catch (error) {

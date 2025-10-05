@@ -128,7 +128,7 @@ const NodeList = () => {
           return (
             <div
               key={node.id}
-              className={`group flex items-center gap-3 rounded-lg border bg-card p-3 transition-all duration-200 hover:scale-[1.02] hover:bg-card/80 hover:shadow-md`}
+              className={`group flex items-center gap-3 rounded-lg border bg-card p-3 transition-all duration-200 hover:scale-[1.01] hover:border-blue-200 hover:bg-blue-50 hover:shadow-md`}
             >
               <button
                 aria-label={`Open ${node.name}`}

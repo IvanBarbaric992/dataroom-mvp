@@ -27,6 +27,7 @@ const Toolbar = () => {
       const folder = await createFolder(currentRoomId, parentId, baseName);
 
       toast.success('Folder created', {
+        id: `folder-created-${Date.now().toString()}`,
         description: `"${folder.name}" has been created successfully.`,
       });
     } catch (error) {
@@ -64,6 +65,7 @@ const Toolbar = () => {
         await createFile(currentRoomId, parentId, file);
 
         toast.success('File uploaded', {
+          id: `file-uploaded-${Date.now().toString()}`,
           description: `"${file.name}" has been uploaded successfully.`,
         });
       } catch (error) {

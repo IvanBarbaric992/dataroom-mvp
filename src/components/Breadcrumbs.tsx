@@ -36,23 +36,29 @@ const Breadcrumbs = () => {
             <span className="sr-only sm:not-sr-only sm:ml-1">Home</span>
           </Button>
 
-          {pathNodes?.map((node) => (
-            <div key={node.id} className="flex flex-shrink-0 items-center">
-              <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
-              <Button
-                className="h-8 flex-shrink-0 px-2 font-medium"
-                size="sm"
-                variant="ghost"
-                onClick={() => {
-                  navigateToFolder(node.id);
-                }}
-              >
-                <span className="whitespace-nowrap" title={node.name}>
-                  {node.name}
-                </span>
-              </Button>
-            </div>
-          ))}
+          {pathNodes?.map((node, index) => {
+            const isLast = index === pathNodes.length - 1;
+            return (
+              <div key={node.id} className="flex flex-shrink-0 items-center">
+                <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
+                <Button
+                  className={`h-8 flex-shrink-0 px-2 font-medium ${isLast ? 'cursor-default text-foreground' : ''}`}
+                  disabled={isLast}
+                  size="sm"
+                  variant="ghost"
+                  onClick={() => {
+                    if (!isLast) {
+                      navigateToFolder(node.id);
+                    }
+                  }}
+                >
+                  <span className="whitespace-nowrap" title={node.name}>
+                    {node.name}
+                  </span>
+                </Button>
+              </div>
+            );
+          })}
         </nav>
       </div>
 

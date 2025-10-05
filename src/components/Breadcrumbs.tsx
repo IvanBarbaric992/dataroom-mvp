@@ -20,34 +20,46 @@ const Breadcrumbs = () => {
   }, [currentPath]);
 
   return (
-    <nav className="flex items-center space-x-1 text-sm text-muted-foreground">
-      <Button
-        className="h-8 px-2"
-        size="sm"
-        variant="ghost"
-        onClick={() => {
-          navigateToFolder(null);
-        }}
-      >
-        <Home className="h-4 w-4" />
-      </Button>
-
-      {pathNodes?.map((node) => (
-        <div key={node.id} className="flex items-center">
-          <ChevronRight className="mx-1 h-4 w-4" />
+    <div className="relative">
+      <div className="scrollbar-hide overflow-x-auto scroll-smooth">
+        <nav className="flex min-w-max items-center space-x-1 pr-8 pb-1 text-sm text-muted-foreground">
           <Button
-            className="h-8 px-2 font-medium"
+            aria-label="Go to home folder"
+            className="h-8 flex-shrink-0 px-2"
             size="sm"
             variant="ghost"
             onClick={() => {
-              navigateToFolder(node.id);
+              navigateToFolder(null);
             }}
           >
-            {node.name}
+            <Home className="h-4 w-4" />
+            <span className="sr-only sm:not-sr-only sm:ml-1">Home</span>
           </Button>
-        </div>
-      ))}
-    </nav>
+
+          {pathNodes?.map((node) => (
+            <div key={node.id} className="flex flex-shrink-0 items-center">
+              <ChevronRight className="mx-1 h-4 w-4 flex-shrink-0" />
+              <Button
+                className="h-8 flex-shrink-0 px-2 font-medium"
+                size="sm"
+                variant="ghost"
+                onClick={() => {
+                  navigateToFolder(node.id);
+                }}
+              >
+                <span className="whitespace-nowrap" title={node.name}>
+                  {node.name}
+                </span>
+              </Button>
+            </div>
+          ))}
+        </nav>
+      </div>
+
+      {pathNodes && pathNodes.length > 2 && (
+        <div className="pointer-events-none absolute top-0 right-0 h-full w-8 bg-gradient-to-l from-background to-transparent" />
+      )}
+    </div>
   );
 };
 

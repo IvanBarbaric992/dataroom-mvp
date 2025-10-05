@@ -1,17 +1,18 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import Toaster from '@/components/common/sonner';
+import RootLayout from '@/components/layouts/RootLayout';
 import Home from '@/pages/Home';
+import NotFound from '@/pages/NotFound';
 
 const App = () => (
-  <>
-    <Toaster />
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Home />} path="/" />
-      </Routes>
-    </BrowserRouter>
-  </>
+  <BrowserRouter>
+    <Routes>
+      <Route element={<RootLayout />} path="/">
+        <Route index element={<Home />} />
+        <Route element={<NotFound />} path="*" />
+      </Route>
+    </Routes>
+  </BrowserRouter>
 );
 
 export default App;

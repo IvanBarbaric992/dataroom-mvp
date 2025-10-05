@@ -113,3 +113,14 @@ body {
   color: inherit !important;
   opacity: 0.9 !important;
 }
+
+/* Scrollbar Hide Utility */
+.scrollbar-hide {
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* Safari and Chrome */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

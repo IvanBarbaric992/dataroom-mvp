@@ -90,35 +90,47 @@ const PdfViewer = ({ open, onOpenChange, node }: PdfViewerProps) => {
   }
 
   return (
-    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80`}>
-      <div className={`flex h-[90vh] w-[90vw] max-w-4xl flex-col rounded-lg bg-background`}>
-        <div className="flex items-center justify-between border-b p-4">
+    <div className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-2 sm:p-4`}>
+      <div
+        className={`flex h-full w-full max-w-4xl flex-col rounded-lg bg-background sm:h-[90vh] sm:w-[90vw]`}
+      >
+        <div className="flex flex-col gap-2 border-b p-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:p-4">
           <div>
             <h2 className="text-lg font-semibold">{node.name}</h2>
             <p className="text-sm text-muted-foreground">
               {numPages > 0 && `Page ${pageNumber.toString()} of ${numPages.toString()}`}
             </p>
           </div>
-          <div className="flex items-center gap-2">
-            <Button size="sm" variant="outline" onClick={zoomOut}>
-              <ZoomOut className="h-4 w-4" />
-            </Button>
-            <span className="text-sm font-medium">{Math.round(scale * 100)}%</span>
-            <Button size="sm" variant="outline" onClick={zoomIn}>
-              <ZoomIn className="h-4 w-4" />
-            </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-1">
+              <Button size="sm" variant="outline" onClick={zoomOut}>
+                <ZoomOut className="h-4 w-4" />
+                <span className="sr-only">Zoom out</span>
+              </Button>
+              <span className="min-w-[3rem] text-center text-sm font-medium">
+                {Math.round(scale * 100)}%
+              </span>
+              <Button size="sm" variant="outline" onClick={zoomIn}>
+                <ZoomIn className="h-4 w-4" />
+                <span className="sr-only">Zoom in</span>
+              </Button>
+            </div>
 
-            <Button disabled={pageNumber <= 1} size="sm" variant="outline" onClick={goToPrevPage}>
-              <ChevronLeft className="h-4 w-4" />
-            </Button>
-            <Button
-              disabled={pageNumber >= numPages}
-              size="sm"
-              variant="outline"
-              onClick={goToNextPage}
-            >
-              <ChevronRight className="h-4 w-4" />
-            </Button>
+            <div className="flex items-center gap-1">
+              <Button disabled={pageNumber <= 1} size="sm" variant="outline" onClick={goToPrevPage}>
+                <ChevronLeft className="h-4 w-4" />
+                <span className="sr-only">Previous page</span>
+              </Button>
+              <Button
+                disabled={pageNumber >= numPages}
+                size="sm"
+                variant="outline"
+                onClick={goToNextPage}
+              >
+                <ChevronRight className="h-4 w-4" />
+                <span className="sr-only">Next page</span>
+              </Button>
+            </div>
 
             <Button
               size="sm"
@@ -128,6 +140,7 @@ const PdfViewer = ({ open, onOpenChange, node }: PdfViewerProps) => {
               }}
             >
               <X className="h-4 w-4" />
+              <span className="sr-only">Close</span>
             </Button>
           </div>
         </div>

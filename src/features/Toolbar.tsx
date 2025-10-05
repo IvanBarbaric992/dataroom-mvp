@@ -80,10 +80,11 @@ const Toolbar = () => {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
       <Button className="gap-2" size="sm" variant="outline" onClick={handleCreateFolder}>
         <FolderPlus className="h-4 w-4" />
-        New Folder
+        <span className="hidden sm:inline">New Folder</span>
+        <span className="sm:hidden">Folder</span>
       </Button>
 
       <Button
@@ -93,7 +94,8 @@ const Toolbar = () => {
         onClick={() => fileInputRef.current?.click()}
       >
         <Upload className="h-4 w-4" />
-        Upload PDF
+        <span className="hidden sm:inline">Upload PDF</span>
+        <span className="sm:hidden">Upload</span>
       </Button>
 
       <input
